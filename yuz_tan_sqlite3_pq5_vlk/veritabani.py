@@ -1,6 +1,6 @@
 import sqlite3 # Sqlite'yı dahil ediyoruz
 
-con = sqlite3.connect("yuz_tan_vlk_deneme/yuz.db") # Tabloya bağlanıyoruz.
+con = sqlite3.connect("yuz_tan_sqlite3_pq5_vlk/yuz.db") # Tabloya bağlanıyoruz.
 
 cursor = con.cursor() # cursor isimli değişken veritabanı üzerinde işlem yapmak için kullanacağımız imleç olacak.
 
