@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>500</height>
+    <width>764</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,9 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>260</y>
+     <y>320</y>
      <width>150</width>
-     <height>60</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -43,9 +43,9 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>400</y>
+     <y>419</y>
      <width>150</width>
-     <height>60</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -56,9 +56,9 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>330</y>
+     <y>370</y>
      <width>150</width>
-     <height>60</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -69,7 +69,7 @@
    <property name="geometry">
     <rect>
      <x>38</x>
-     <y>185</y>
+     <y>260</y>
      <width>47</width>
      <height>17</height>
     </rect>
@@ -82,7 +82,7 @@
    <property name="geometry">
     <rect>
      <x>58</x>
-     <y>179</y>
+     <y>254</y>
      <width>113</width>
      <height>24</height>
     </rect>
@@ -92,7 +92,7 @@
    <property name="geometry">
     <rect>
      <x>58</x>
-     <y>215</y>
+     <y>290</y>
      <width>113</width>
      <height>24</height>
     </rect>
@@ -102,7 +102,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>215</y>
+     <y>290</y>
      <width>20</width>
      <height>20</height>
     </rect>
@@ -114,10 +114,10 @@
   <widget class="QLabel" name="kamera_label">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>200</x>
      <y>20</y>
-     <width>531</width>
-     <height>461</height>
+     <width>550</width>
+     <height>450</height>
     </rect>
    </property>
    <property name="text">
@@ -127,14 +127,34 @@
   <widget class="QLabel" name="yazi_alani">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>470</y>
-     <width>47</width>
-     <height>13</height>
+     <x>10</x>
+     <y>490</y>
+     <width>181</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Aşağıdaki Özellikleri Kullanmak İçin 
+Önce Kamerayı Açın</string>
    </property>
   </widget>
   <widget class="QPushButton" name="buton">
