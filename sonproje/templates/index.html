@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+<div class="jumbotron text-center "><h4>Grup 10 Proje Sayfası</h4>
+      {% if session['logged_in'] %}
+{{session.username}} Hoşgeldin
+{% else %}
+{% endif %}</div>
+<h5>Proje İçeriği</h5>
+<hr>
+<div class="card-group">
+  <div class="card">
+    <img class="card-img-top" src="{{ url_for('static', filename='img/1.png') }}" >
+    <div class="card-body">
+      <h5 class="card-title">İcerik-1</h5>
+      <hr>
+      <p class="card-text">Deneme Deneme Deneme</p>
+    </div>
+    <div class="card-footer text-right">
+      <a href="/icerik1" class="btn btn-secondary">Devamı</a>
+    </div>
+  </div>
+  <div class="card">
+    <img class="card-img-top" src="{{ url_for('static', filename='img/2.png') }}" >
+    <div class="card-body">
+      <h5 class="card-title">İçerik-2</h5>
+      <hr>
+      <p class="card-text">Deneme Deneme Deneme</p>
+    </div>
+     <div class="card-footer text-right">
+      <a href="/icerik2" class="btn btn-secondary">Devamı</a>
+    </div>
+  </div>
+  <div class="card">
+    <img class="card-img-top" src="{{ url_for('static', filename='img/3.jpg') }}" >
+    <div class="card-body">
+      <h5 class="card-title">İçerik-3</h5>
+      <hr>
+      <p class="card-text">Deneme Deneme Deneme</p>
+    </div>
+     <div class="card-footer text-right">
+      <a href="/icerik3" class="btn btn-secondary">Devamı</a>
+    </div>
+  </div>
+</div>
+<hr>
+
+{% endblock %}
+
+
