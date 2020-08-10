@@ -4,9 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from camera import VideoCamera
 from veriSetiOlusturucu import kameragirisi
 import Egitme
-from TespitEdici import tespitetme
 import cv2
 from passlib.hash import sha256_crypt
+from functools import wraps
 
 
 
@@ -41,7 +41,16 @@ class Yoklama(db.Model):
     ad_soayd = db.Column(db.String(80))
     numara=db.Column(db.Integer)
     complete=db.Column(db.Boolean)
-
+# Kullanıcı Giriş Decorator'ı
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" in session:
+            return f(*args, **kwargs)
+        else:
+            flash("Bu sayfayı görüntülemek için lütfen giriş yapın.","danger")
+            return redirect(url_for("login"))
+    return decorated_function
  
 #Anasayfa
 @app.route("/")
@@ -56,11 +65,13 @@ def about():
 
 #Yoklama Sayfası
 @app.route("/yoklama")
+@login_required
 def yoklama():
     yoklama = Yoklama.query.all()#Yoklamam tablosundaki tüm kayıtları al
     return render_template("yoklama.html",yoklama=yoklama)
 #Yoklama sayfasında öğrenci silme 
 @app.route("/delete/<string:id>")
+@login_required
 def deleteogrenci(id):
     #Gönderilen id göre tablodaki kayıtı SQLAlchemy sorgusu ile alma
     ogrenci = Yoklama.query.filter_by(id = id).first()
@@ -69,10 +80,12 @@ def deleteogrenci(id):
     return redirect(url_for("yoklama"))
 #Web Cam İşlemleri sayfası
 @app.route("/cam")
+@login_required
 def cam():
     return render_template('cam.html')
 #Web cam sayfasında bulunan butonların işlev görevmesi için gerekli sayfaların oluşturulması
 @app.route("/cam1/<string:id>")
+@login_required
 def cam1(id):
     if id=="1":
         return render_template('cam1.html',id=id)
@@ -173,11 +186,14 @@ def icerik2():
 @app.route("/icerik3")
 def icerik3():
     return render_template("icerik3.html")
+
 @app.route("/kontrol")
+@login_required
 def kontrol():
     
     return render_template("kontrol.html")
 @app.route("/duzenle")
+@login_required
 def duzenle():
     todos = Kullanici.query.all()
     return render_template("kontrol1.html",todos=todos)
