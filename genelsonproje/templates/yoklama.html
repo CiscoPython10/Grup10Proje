@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+
+<h4>Okulda Olan Öğrenci Listesi </h4>
+<hr>
+  {% if yoklama == [] %}
+        <div class="alert alert-warning" role="alert">
+                Herhangi bir öğrenci okulda  bulunmuyor...
+        </div>
+        {% else %}
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Öğrenci Adı</th>
+                    <th scope="col">Öğrenci Numara</th>
+                    <th scope="col">Okulda mı</th>
+                    <th scope="col">Kaydı Sil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for ogrenci in yoklama %}
+                  <tr>
+                        <th scope="row">{{ogrenci.id}}</th>
+                        <td>{{ogrenci.ad_soayd}}</td>
+                        <td>{{ogrenci.numara}}</td>
+                        {% if ogrenci.complete == False %}
+                        <td>Okulda Değil</td>
+                        {% else %}
+                        <td>Okulda</td>
+                        {% endif %}
+                        
+                     
+                        <td><a href="/delete/{{ogrenci.id}}" class ="btn btn-danger">Sil</a></td>
+  
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+        {% endif %}
+{% endblock  %}

@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+<a href="/kontrol" class="jumbotron  btn btn-warning text-center "><h4>Kontrol Paneli</h4>
+      {% if session['logged_in'] %}
+{{session.username}} Hoşgeldin
+{% else %}
+{% endif %}</a>
+<hr>
+
+<a href="/duzenle" class="btn btn-warning btn-lg btn-block">Kullanıcı Bilgilerini Göster</a>
+<a href="/cam" class="btn btn-info btn-lg btn-block">Tanımlama İşlemleri</a>
+<a href="/yoklama" class="btn btn-danger btn-lg btn-block">Yoklama İşlemleri</a>
+ 
+<hr>
+
+{% endblock %}
+
+
