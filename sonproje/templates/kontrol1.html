@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+<a href="/kontrol" class="jumbotron  btn btn-warning text-center "><h4>Kontrol Paneli</h4>
+      {% if session['logged_in'] %}
+{{session.username}} Hoşgeldin
+{% else %}
+{% endif %}</a>
+<hr>
+ {% if todos == [] %}
+<div class="alert alert-warning" role="alert">
+                Herhangi bir kullanıcı bulunmuyor...
+        </div>
+ {% else %}
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Sil</th>
+                    <th scope="col">Ad Soyad</th>
+                    <th scope="col">Kullanıcı Adı</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">Şifre</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for todo in todos %}
+                  <tr>
+                        <th scope="row"><a href="/delete1/{{todo.id}}" class ="btn btn-danger">Sil</a></th>
+                        <td>{{todo.isim}}</td>
+                        <td>{{todo.kullanici_adi}}</td>
+                        <td>{{todo.mail}}</td>
+                         <td>{{todo.kullanici_sifre}}</td>
+                       
+                        
+                        
+  
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+        {% endif %}
+<hr>
+
+{% endblock %}
+
+
