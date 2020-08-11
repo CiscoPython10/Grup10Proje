@@ -21,6 +21,13 @@
  </div>
  {% elif id=="3" %}
    <img id="bg" class="center" src="{{ url_for('video_feed') }}" ><br>
+   {% if siniflar == [] %}
+        <div class="alert alert-warning" role="alert">
+                Herhangi bir sınıf bulunmadığı için kayıt yapılamaz , öncelikle kontrol kısmında sınıfları ekleyiniz...
+        </div>
+        {% else %}
+        
+  
  <form action='/add' method='post'>
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -31,9 +38,24 @@
       <label for="inputPassword4">ID-NUMARA</label>
       <input type="text" class="form-control" id="numara" name="numara" placeholder="ID-NUMARA">
     </div>
+    <div class="form-group col-md-6">
+    <label for="inputPassword4">Sınıf</label>
+  <select class="custom-select" id="inputGroupSelect04" name="sinifbilgi">
+    <option selected>Seç...</option>
+     {% for todo in siniflar %}
+     {%if todo.complete==True%}
+    <option value="{{todo.sinifx}}">{{todo.sinifx}}</option>
+    
+    {%endif%}
+    {% endfor %}
+  </select>
+  
+</div>
   </div>
  <button type="submit" class="btn btn-secondary">Kaydet</button>
 </form>
+
+  {% endif %}
 {% elif id=="4" %}
 <div class="baslik1"><h3>Eğitim Yapıldı</h3>
  </div>

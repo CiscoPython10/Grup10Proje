@@ -1,6 +1,9 @@
 from flask import Flask,flash,render_template,Response,request,redirect,url_for,session,logging
 from wtforms import Form,StringField,TextAreaField,PasswordField,validators
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column,Integer,String,DateTime
+from datetime import datetime
+import time
 from camera import VideoCamera
 from veriSetiOlusturucu import kameragirisi
 import Egitme
@@ -14,15 +17,19 @@ from functools import wraps
 app=Flask(__name__)
 
 #Veri Tabanı İş ve İşlemleri
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/MKAVAKLI/Desktop/sonproje/yuztanimlama.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/MKAVAKLI/Desktop/genelsonproje/yuztanimlama.db'
 db = SQLAlchemy(app)
 
 #Tablo sınıflarının oluşturulması
+#Yüz Tanımlama kayıt işlemindeki tablo
 class Yuz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad_soyad = db.Column(db.String(80))
     numara=db.Column(db.Integer)
     kartno=db.Column(db.String(80))
+    sinif=db.Column(db.String(30))
+
+#Sisteme girecek yetkili kısımın bilgileri tablosu
     
 class Kullanici(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,11 +44,23 @@ class Kullanici(db.Model):
         self.isim=isim
         self.mail=mail
 
+#Yüz tanımlama sırasında bilgilerin yazılacağı tablo
+
 class Yoklama(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ad_soayd = db.Column(db.String(80))
     numara=db.Column(db.Integer)
     complete=db.Column(db.Boolean)
+    come_date =  db.Column(db.DateTime, default=datetime.utcnow)
+    sinif=db.Column(db.String(30))
+
+#Sınıfların admin tarafında girileceği bilgi
+
+class Sinif(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sinifx= db.Column(db.String(30))
+    complete = db.Column(db.Boolean)
+    
 
 # Kullanıcı Giriş Decorator'ı
 def login_required(f):
@@ -164,13 +183,51 @@ def duzenle():
     return render_template("kontrol1.html",todos=todos)
 
 #Kullanıcı Silme İş ve İşlemleri
-@app.route("/delete1/<string:id>")
+@app.route("/delete/<string:id>")
 def deletekullanici(id):
     #Gönderilen id göre tablodaki kayıtı SQLAlchemy sorgusu ile alma
     kullanici = Kullanici.query.filter_by(id = id).first()
     db.session.delete(kullanici)
     db.session.commit()
     return redirect(url_for("duzenle"))
+
+#Sınıf Ekleme İş ve İşlemleri
+
+@app.route("/sinifislemleri")
+@login_required
+def sinifislemleri():
+    todosx = Sinif.query.all()
+    return render_template("sinifislemleri.html",todosx = todosx)
+#Tabloya sınıfları ekleme
+@app.route("/add1",methods = ["POST"])
+def addTodo1():
+    sinifx = request.form.get("title")
+    newTodo = Sinif(sinifx = sinifx,complete = False)
+    db.session.add(newTodo)
+    db.session.commit()
+    return redirect(url_for("sinifislemleri"))
+
+#Sınıf Silme İşlemleri
+
+@app.route("/delete1/<string:id>")
+def deleteTodo1(id):
+    todoc = Sinif.query.filter_by(id = id).first()
+    db.session.delete(todoc)
+    db.session.commit()
+    return redirect(url_for("sinifislemleri"))
+
+#Sınıf Durumu Güncelleme -Aktif /Pasif
+@app.route("/complete1/<string:id>")
+def completeTodo1(id):
+    todov = Sinif.query.filter_by(id = id).first()
+    """if todo.complete == True:
+        todo.complete = False
+    else:
+        todo.complete = True"""
+    todov.complete = not todov.complete
+
+    db.session.commit()
+    return redirect(url_for("sinifislemleri"))
 
 #Web Cam İşlemleri sayfası
 @app.route("/cam")
@@ -186,7 +243,8 @@ def cam1(id):
     elif id=="2":
         return render_template('cam1.html',id=id)
     elif id=="3":
-         return render_template('cam1.html',id=id)
+        siniflariekle = Sinif.query.all()
+        return render_template('cam1.html',id=id,siniflar=siniflariekle )
     elif id=="4":
         Egitme.egitme_basla()
         return render_template('cam1.html',id=id)
@@ -245,14 +303,33 @@ class VideoCameraYT(object):
             todo = Yuz.query.filter_by(numara = tahminEdilenKisi).first()
 
             if todo:
-                #yoklamaya kayıt edilmiş mi kontrol edilecek
-                todo1 = Yoklama.query.filter_by(numara = todo.numara).first()
+                #yoklamaya kayıt edilmiş mi kontrol edilip tüm var olup olmadığı todo1 alınıyor
+                todo1 = Yoklama.query.filter_by(numara = todo.numara).all()
+                #Kayıt Yoksa Ekleme yapılacak
                 if  not todo1:                 
                     ad_soyad=todo.ad_soyad
                     numara=todo.numara
-                    yeniKayit=Yoklama(ad_soayd=ad_soyad,numara=numara,complete=True)
+                    sinif=todo.sinif
+                    yeniKayit=Yoklama(ad_soayd=ad_soyad,numara=numara,complete=True,come_date=datetime.now(),sinif=sinif)
                     db.session.add(yeniKayit)
                     db.session.commit()
+                #KAyıt var ise öncelikle en son kayıt alınıp bugün ile karşılaştırılıp ona göre
+                #veritabanına kayıt edilecek.
+                else:
+                    for gunler in todo1:
+
+                        come_date=gunler.come_date
+                    come_date_day=come_date.strftime("%d")
+                    bugun=datetime.today()
+                    bugun_day=bugun.strftime("%d")
+                    fark=int(bugun_day)-int(come_date_day)
+                    if fark>=1:
+                        ad_soyad=todo.ad_soyad
+                        numara=todo.numara
+                        sinif=todo.sinif
+                        yeniKayit=Yoklama(ad_soayd=ad_soyad,numara=numara,complete=True,come_date=datetime.now(),sinif=sinif)
+                        db.session.add(yeniKayit)
+                        db.session.commit()
                            
 
             break
@@ -264,12 +341,13 @@ class VideoCameraYT(object):
 def addYuz():
     ad_soyad=request.form.get("adsoyad")
     numara=request.form.get("numara")
-    if ad_soyad=="" or numara=="":
+    sinifx=request.form.get("sinifbilgi")
+    if ad_soyad=="" or numara=="" or sinifx=="":
         flash("Kayıt yapmak için lütfen bilgileri giriniz...","danger")
         return redirect(url_for("cam1",id="3"))
     else:
 
-        yeniKayit=Yuz(ad_soyad=ad_soyad,numara=numara)
+        yeniKayit=Yuz(ad_soyad=ad_soyad,numara=numara,sinif=sinifx)
         db.session.add(yeniKayit)
         db.session.commit()
         kameragirisi(numara)

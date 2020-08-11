@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+
+ <div style = "margin-top: 100px;" class = "container" >
+        <h4>Okulda Bulunan Sınıflar</h4>
+        <hr>
+
+        <form action="/add1" method = "post">
+            <div class="form-group">
+                    <label for="formGroupExampleInput">Sınıf Ekleme</label>
+                    <input type="text" class="form-control" name = "title" id="formGroupExampleInput" placeholder="Sınıf Giriniz... Örnek 9AMP-A"><br>
+                    <button type = "submit" class="btn btn-danger">Ekle</button>
+            </div>
+            <hr>
+
+
+        </form>
+        {% if todosx == [] %}
+        <div class="alert alert-warning" role="alert">
+                Herhangi bir sınıf bulunmuyor...
+        </div>
+        {% else %}
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Sınıf Adı</th>
+                    <th scope="col">Sınıf Durumu</th>
+                    
+                    <th scope="col">Sınıf Sil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for todo in todosx %}
+                  <tr>
+                        <th scope="row">{{todo.id}}</th>
+                        <td>{{todo.sinifx}}</td>
+                        {% if todo.complete == False %}
+                        <td  > <a href="/complete1/{{todo.id}}" class="btn btn-outline-danger">Sınıf Pasif</a></td>
+                        {% else %}
+                        <td ><a href="/complete1/{{todo.id}}" class="btn btn-outline-success">Sınıf Aktif</a></td>
+                        {% endif %}
+                        
+                        
+                        <td><a href="/delete1/{{todo.id}}" class ="btn btn-danger">Sil</a></td>
+  
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+        {% endif %}
+        
+        
+    </div>
+{% endblock  %}
