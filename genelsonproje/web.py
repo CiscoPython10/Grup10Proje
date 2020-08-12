@@ -363,7 +363,7 @@ def yoklama():
 
 #Yoklama sayfasında öğrenci silme 
 
-@app.route("/delete/<string:id>")
+@app.route("/delete2/<string:id>")
 @login_required
 def deleteogrenci(id):
     #Gönderilen id göre tablodaki kayıtı SQLAlchemy sorgusu ile alma
