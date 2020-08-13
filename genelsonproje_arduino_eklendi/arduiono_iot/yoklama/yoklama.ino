@@ -1,7 +1,6 @@
 
 #include <MFRC522.h>
-#include <MFRC522Extended.h>
-#include <SPI.h>
+
 #include <SoftwareSerial.h>
 
 
