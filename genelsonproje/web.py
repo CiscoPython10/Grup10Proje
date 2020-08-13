@@ -17,7 +17,7 @@ from functools import wraps
 app=Flask(__name__)
 
 #Veri Tabanı İş ve İşlemleri
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/MKAVAKLI/Desktop/genelsonproje/yuztanimlama.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/FETEMM 15/Desktop/pytonlar/egitmenegitimi/Grup10Proje/genelsonproje/yuztanimlama.db'
 db = SQLAlchemy(app)
 
 #Tablo sınıflarının oluşturulması
