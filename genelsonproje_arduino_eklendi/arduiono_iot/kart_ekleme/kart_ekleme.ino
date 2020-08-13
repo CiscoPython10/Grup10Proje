@@ -1,6 +1,4 @@
-#include <SPI.h>
 #include <MFRC522.h>
-#include <EEPROM.h>
 
 #define RST_PIN 9
 #define SS_PIN 10
@@ -8,9 +6,7 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-String lastRfid = "";
-String kart1 = "";
-String kart2 = "";
+
 
 MFRC522::MIFARE_Key key;
 
