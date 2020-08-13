@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block grup10elz %}
+
+<h4>Yüz Tanımlama İşlemleri</h4>
+<hr>
+<div class="deneme">
+<a href="/cam1/1" class="btn btn-secondary">Web Cam Aç</a>
+<a href="/cam1/2" class="btn btn-success">Web Cam Kapat</a>
+<a href="/cam1/3" class="btn btn-danger">Veri Seti Oluştur</a>
+<a href="/cam1/4" class="btn btn-warning">Eğitim Yap</a>
+<a href="/cam1/5" class="btn btn-info">Tanımlama İşlemi</a>
+</div>
+<br>
+ {% if id=="1" %}
+ <div class="baslik1">
+ </div>
+  <img id="bg" class="center" src="{{ url_for('video_feed') }}" >
+{% elif id=="2" %}
+<img id="bg" class="center" src="{{ url_for('static', filename='img/1.png') }}" >
+<div class="baslik1"><h3>Web Cam Kapatıldı</h3>
+ </div>
+ {% elif id=="3" %}
+   <img id="bg" class="center" src="{{ url_for('video_feed') }}" ><br>
+   {% if siniflar == [] %}
+        <div class="alert alert-warning" role="alert">
+                Herhangi bir sınıf bulunmadığı için kayıt yapılamaz , öncelikle kontrol kısmında sınıfları ekleyiniz...
+        </div>
+        {% else %}
+        
+  
+ <form action='/add' method='post'>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Ad Soyad</label>
+      <input type="text" class="form-control" id="adsoyad"  name="adsoyad" placeholder="Adsoyad">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">ID-NUMARA</label>
+      <input type="text" class="form-control" id="numara" name="numara" placeholder="ID-NUMARA">
+    </div>
+         <div class="form-group col-md-6">
+      <label for="inputPassword4">kart no</label>
+      <input type="text" class="form-control" id="kartno" name="kartno" placeholder="KartNo" value="{{ kartno }}" >
+    </div>
+    <div class="form-group col-md-6">
+    <label for="inputPassword4">Sınıf</label>
+  <select class="custom-select" id="inputGroupSelect04" name="sinifbilgi">
+    <option selected>Seç...</option>
+     {% for todo in siniflar %}
+     {%if todo.complete==True%}
+    <option value="{{todo.sinifx}}">{{todo.sinifx}}</option>
+    
+    {%endif%}
+    {% endfor %}
+  </select>
+  
+</div>
+  </div>
+ <button type="submit" class="btn btn-secondary">Kaydet</button>
+</form>
+
+  {% endif %}
+{% elif id=="4" %}
+<div class="baslik1"><h3>Eğitim Yapıldı</h3>
+ </div>
+{% elif id=="5" %}
+<img id="bg" class="center" src="{{ url_for('video_feedYT') }}" ><br>
+<div class="baslik1"><h3>Tanımlama İşlemleri Yapılıyor</h3>
+ {% else %}
+ <img id="bg" class="center" src="{{ url_for('video_feedYT') }}" ><br>
+<div class="baslik1"><h3>Tanımlama İşlemleri Yapılıyor... Kişi: {{ id[2::] }}</h3>
+
+ </div>
+ {% endif %}
+     
+    
+
+
+
+{% endblock  %}

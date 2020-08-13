@@ -1,0 +1,50 @@
+ <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" href="/"><img class="card-img-top" src="{{ url_for('static', filename='img/logo.png') }}" height="60" ></a> 
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+        
+          <li class="nav-item active">
+            <a class="nav-link" href="/about">Hakkımızda</a>
+          </li>
+         
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Proje Bilgileri
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="/icerik1">İçerik1</a>
+          <a class="dropdown-item" href="/icerik2">İçerik2</a>
+          <a class="dropdown-item" href="/icerik3">İçerik3</a>
+        </div>
+      </li>
+        </ul>
+           <ul class="navbar-nav ml-auto">
+           {% if session['logged_in'] %}
+           <li class="nav-item active">
+            <a class="nav-link" href="/kontrol">Kontrol Paneli</a>
+          </li>
+       
+           <li class="nav-item active">
+            <a class="nav-link" href="/logout">Çıkış Yap</a>
+            </li>
+            
+           {% else %}
+           <li class="nav-item active">
+            <a class="nav-link" href="/login">Giriş</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/register">Kayıt Ol</a>
+          </li>
+           {% endif %}
+         
+          
+           
+          
+          
+        </ul>
+      </div>
+    </nav>

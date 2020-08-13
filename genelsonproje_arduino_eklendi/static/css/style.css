@@ -1,0 +1,32 @@
+html,
+body {
+  height: 100%;
+}
+
+#page-content {
+  flex: 1 0 auto;
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+/* Other Classes for Page Styling */
+
+body {
+  background: #ffffff;
+  background: linear-gradient(to right, #fff, #fff);
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 45%;
+  height: 50%;
+}
+#deneme {
+  position: relative;
+  margin: auto;
+
+}
