@@ -12,19 +12,17 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
  
-SoftwareSerial esp8266(2,3); // make RX Arduino line is pin 2, make TX Arduino line is pin 3.
-                             // This means that you need to connect the TX line from the esp to the Arduino's pin 2
-                             // and the RX line from the esp to the Arduino's pin 3
+SoftwareSerial esp8266(2,3); // arduino 2 nolu pin esp TX ine, 3 nolu pin esp RX ine
 
 
-String IP="192.168.0.32";
+String IP="192.168.0.32";// sunucu adresi
 String data="";
 String rfid="";
 void setup()
 {
    Serial.begin(115200);
  
-  esp8266.begin(115200); // your esp's baud rate might be different
+  esp8266.begin(115200); // kullanılan esp modülüne göre değişiklik gösterebilir
  
   connectWifi();
   //rfc522 ayarları
@@ -32,9 +30,7 @@ void setup()
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(ledPin, OUTPUT);
-  Serial.println("RFID KART OKUMA UYGULAMASI");
-  Serial.println("--------------------------");
-  Serial.println();
+
 }
  
 void loop()
@@ -57,23 +53,15 @@ void loop()
       //string'in boyutunu ayarla ve tamamını büyük harfe çevir
       rfid.trim();
       rfid.toUpperCase();
-    //Kart versinin okunması
-    //Verinin ağ dan gönderilmesi
-    //esp8266.println("192.168.0.13/index2.php2=22");
+   
     
   
     //Verinin ağ dan gönderilmesi
     data=rfid;
      httppost();
- // delay(2000);
+  delay(20);
 }
  
-/*
-* Name: sendData
-* Description: Function used to send data to ESP8266.
-* Params: command - the data/command to send; timeout - the time to wait for a response; debug - print to Serial window?(true = yes, false = no)
-* Returns: The response from the esp8266 (if there is a reponse)
-*/
 
 
 
@@ -83,8 +71,8 @@ void loop()
 void connectWifi()
 {
   Serial.println("islem basladi");
-    String ag="etenketen";
-    String sifre="ss9932550811";
+    String ag="ssid ";
+    String sifre="şifre";
           
      esp8266.println("AT\r\n");
      delay(2000);
@@ -93,8 +81,8 @@ void connectWifi()
     
     esp8266.println("AT+CWMODE=1\r\n");
 
-   //String cmd = "AT+CWJAP=\"" +ag+"\",\"" + sifre + "\"\r\n";  
-     esp8266.println("AT+CWJAP=\"etenketen\",\"ss9932550811\"\r\n");
+   String cmd = "AT+CWJAP=\"" +ag+"\",\"" + sifre + "\"\r\n";  
+     
     //esp8266.print(cmd);
     
        delay(10000);
@@ -103,7 +91,7 @@ void connectWifi()
     if(esp8266.find("OK")) 
     {
     
-      Serial.println("Connected!");
+      Serial.println("Bağlantı tamam!");
        
     
     }
@@ -112,7 +100,7 @@ void connectWifi()
     {  
    
     
-    Serial.println("Cannot connect to wifi"); 
+    Serial.println("Bağlanmada sorun var."); 
    // connectWifi();
     }
 
@@ -139,7 +127,7 @@ void httppost ()
 
     "\r\n" + data);
 
-    String sendCmd = "AT+CIPSEND=";//determine the number of caracters to be sent.
+    String sendCmd = "AT+CIPSEND=";
 
     esp8266.print(sendCmd);
 
@@ -161,8 +149,7 @@ void httppost ()
 
             }
 
-            // close the connection
-
+            // bağlantıyı kapat
             esp8266.println("AT+CIPCLOSE");
 
         }
